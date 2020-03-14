@@ -23,7 +23,7 @@ class DeviceController extends Controller
     }
 
     /**
-     * @Route("/device/list/", name="list")
+     * @Route("/devices/list/", name="list")
      * @Template()
      */
     public function list() {

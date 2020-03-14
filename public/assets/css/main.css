@@ -3096,15 +3096,20 @@
         }
 
         .spotlights > section:nth-child(7) {
-        }
-
-        .spotlights > section:nth-child(8) {
             background-color: rgba(0, 0, 0, 0.05);
         }
 
-        .spotlights > section:nth-child(9) {
+        .spotlights > section:nth-child(8) {
             background-color: rgba(0, 0, 0, 0.1);
         }
+
+		.spotlights > section:nth-child(10) {
+			background-color: rgba(0, 0, 0, 0.05);
+		}
+
+		.spotlights > section:nth-child(11) {
+			background-color: rgba(0, 0, 0, 0.1);
+		}
 
 		.spotlights > section.inactive > .image:before, body.is-loading .spotlights > section > .image:before {
 			opacity: 1;
