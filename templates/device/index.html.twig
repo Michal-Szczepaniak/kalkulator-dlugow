@@ -1,0 +1,232 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+    {% if device is not null %}
+    <title>VerdandiTeam Website - Device {{ device.name }}</title>
+    {% else %}
+    <title>VerdandiTeam Website - Device not found</title>
+    {% endif %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="{{ asset('assets/js/ie/html5shiv.js') }}"></script><![endif]-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.11/css/all.css" integrity="sha384-p2jx59pefphTFIpeqCcISO9MdVfIm4pNnsL08A6v5vaQc4owkQqxMV8kg4Yvhaw/" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
+    <!--[if lte IE 9]><link rel="stylesheet" href="{{ asset('assets/css/ie9.css') }}" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="{{ asset('assets/css/ie8.css') }}" /><![endif]-->
+</head>
+<body>
+
+{% if device is not null %}
+<!-- Sidebar -->
+<section id="sidebar">
+    <div class="inner">
+        <nav>
+            <ul>
+                <li onclick="window.location.href = '/'">Main Page</li>
+                <li><a href="#deviceIntro">Device</a></li>
+                <li><a href="#one">Features</a></li>
+                <li><a href="#two">Instructions</a></li>
+                <li><a href="#three">Get in touch</a></li>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Intro -->
+    <section id="deviceIntro" class="wrapper style1 fullscreen fade-up" style="background-image: url(/images/{{ device.name }}.jpg)">
+        <div class="inner">
+            <h1>{{ device.namePretty }}</h1>
+            <p>{{ device.description }}</p>
+            <ul class="actions">
+                <li><a href="/" class="button">Go back to main page</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- One -->
+    <section id="one" class="wrapper style2 spotlights">
+        <section>
+            <div class="content">
+                <div class="inner">
+                    <h2>Features</h2>
+                    <ul>
+                            <li>SailfishOS {{ device.sfosVersion }}</li>
+                        {% for feature in device.workingList %}
+                            <li>{{ feature }}</li>
+                        {% endfor %}
+                        {% if device.haveOta %}
+                            <li>OTA support</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="content">
+                <div class="inner">
+                    <h2>Not working features</h2>
+                    <ul>
+                        {% for error in device.brokenList %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                        {% if not device.brokenList|length %}
+                            <li>Nothing</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- Two -->
+    <section id="two" class="wrapper style3 fade-up">
+        <div class="inner">
+            <h2>Instructions</h2>
+            <blockquote>Warning: Flashing this may void your device’s warranty, lead
+                to data loss, hair loss, financial loss, privacy loss, security breaches, or other damage, and therefore
+                must be done entirely at your own risk. No one affiliated with this project is responsible for your
+                actions but yourself.</blockquote>
+            <p>{{ device.installDescription }}</p>
+
+            <h3>Download</h3>
+            <h4>CyanogenMod base for</h4>
+            <ul class="actions">
+                {% for name,link in device.downloadCm %}
+                <li><a class="button" target="_blank" href="{{ link }}">{{ name }}</a></li>
+                {% endfor %}
+            </ul>
+
+            <h4>SailfishOS rootfs for</h4>
+            <ul class="actions">
+                {% for name,link in device.downloadSfos %}
+                    <li><a class="button" target="_blank" href="{{ link }}">{{ name }}</a></li>
+                {% endfor %}
+            </ul>
+
+            {% if device.downloadLogo is not null %}
+            <h4>Optional bootlogo</h4>
+            <ul class="actions">
+                <li><a class="button" target="_blank" href="{{ device.downloadLogo }}">bootlogo</a></li>
+            </ul>
+            {% endif %}
+
+            <h3>Preparations</h3>
+            <ol>
+                {% for row in device.installPreparations %}
+                    <li>{{ row|raw }}</li>
+                {% endfor %}
+            </ol>
+
+            <h3>Installation</h3>
+            <ol>
+                {% for row in device.installInstructions %}
+                    <li>{{ row|raw }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+    </section>
+
+    {% if device.haveOta %}
+    <!-- Second Two -->
+    <section id="two" class="wrapper style3-alt fade-up">
+        <div class="inner">
+            <h2>OTA Instructions</h2>
+            <p>{{ device.otaDescription|raw }}</p>
+
+            <ol>
+                {% for row in device.otaInstructions %}
+                    <li>{{ row|raw }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Three -->
+    <section id="three" class="wrapper style1 fade-up">
+        <div class="inner">
+            <h2>Get in touch</h2>
+            <p>If you have any questions we are happy to help. Support is part of our quality that we are providing. If you have any problems installing or using our ports or any questions we are here to help.</p>
+            <div class="split style1">
+                <section>
+                    <form method="post" action="#">
+                        <div class="field half first">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="name" />
+                        </div>
+                        <div class="field half">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" id="email" />
+                        </div>
+                        <div class="field">
+                            <label for="message">Message</label>
+                            <textarea name="message" id="message" rows="5"></textarea>
+                        </div>
+                        <ul class="actions">
+                            <li><a href="" class="button submit">Send Message</a></li>
+                        </ul>
+                    </form>
+                </section>
+                <section>
+                    <ul class="contact">
+                        <li>
+                            <h3>Email</h3>
+                            <a href="#">m.szczepaniak.000@gmail.com</a>
+                        </li>
+                        <li>
+                            <h3>Social</h3>
+                            <ul class="icons">
+                                <li><a href="https://github.com/verdanditeam" class="fa-github"><span class="label">GitHub</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% else %}
+<div id="wrapper">
+
+    <!-- Intro -->
+    <section id="intro" class="wrapper style1 fullscreen fade-up">
+        <div class="inner">
+            <h1>Device not found</h1>
+            <p>Requested device was not found</p>
+            <ul class="actions">
+                <li><a href="/" class="button scrolly">Go back</a></li>
+            </ul>
+        </div>
+    </section>
+</div>
+{% endif %}
+
+<!-- Footer -->
+<footer id="footer" class="wrapper style1-alt">
+    <div class="inner">
+        <ul class="menu">
+            <li>&copy; Michał Szczepaniak. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.scrollex.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery.scrolly.min.js') }}"></script>
+<script src="{{ asset('assets/js/skel.min.js') }}"></script>
+<script src="{{ asset('assets/js/util.js') }}"></script>
+<!--[if lte IE 8]><script src="{{ asset('assets/js/ie/respond.min.js') }}"></script><![endif]-->
+<script src="{{ asset('assets/js/main.js') }}"></script>
+
+</body>
+</html>
